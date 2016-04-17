@@ -171,61 +171,67 @@ When startup is completed you will see the following:
     Poky (Yocto Project Reference Distro) 2.0.1 qemux86 /dev/ttyS0
 
     qemux86 login: root
-    root@qemux86:~# helloworld
-    Hello IoT Tech Day!
+    root@qemux86:~# helloworld 
+    Live long and prosper.
+
 
 ##Step 3: Building our distribution for Raspberry Pi
 In the final step we will now get our Linux distribution running on actual Raspberry Pi hardware. To do this we need a  __Board Support Package__ to provide hardware support. We can find this in the `meta-raspberryp` layer. We will also create another image to make our distribution run on hardware.
 
 __Hint__ You can search for available layers [here](http://layers.openembedded.org/)
 
+Go back to the `poky` directory (for me that's `/home/oscar/yocto/poky/`)
+
     cd .. 
-    git clone -b jethro git://git.yoctoproject.org/meta-raspberrypi
     
+Then we need to clone the `meta-raspberryp` layer.
+
+    git clone --branch jethro --depth 1 git://git.yoctoproject.org/meta-raspberrypi
+
 If we check inside the meta-raspberrypi layer we will see that there are three available images.
 
     ls meta-raspberrypi/recipes-core/images/
     rpi-basic-image.bb  rpi-hwup-image.bb  rpi-test-image.bb
-
+    
 We will base our new image on the `rpi-basic-image`
     
-    nano meta-iot-tech-day/recipes-core/images/rpi-iot-tech-image.bb
+    nano meta-squeed/recipes-core/images/rpi-squeed-image.bb
  
 Make sure the file contains:        
 
-    require /home/oscar/yocto/poky/meta-raspberrypi/recipes-core/images/rpi-basic-image.bb
+    require recipes-core/images/rpi-basic-image.bb
 
-    IMAGE_INSTALL += " helloIotTech"
+    IMAGE_INSTALL += " helloSqueed"
 
-__NOTE__ Make sure to replace the full path above!
 
-Change directory to the `build` directory.
+Since we're changing target we'll setup a new build environment.
 
-    cd build
+    source oe-init-build-env build
     
-We will then add the Raspberry Pi layer
+We then need to add both our own layer `meta-squeed` and the `meta-raspberrypi` layer
 
     bitbake-layers add-layer $HOME/yocto/poky/meta-raspberrypi/
+    bitbake-layers add-layer $HOME/yocto/poky/meta-squeed/
     
-This means that your `conf/bblayers.conf` should now also have the `meta-raspberrypi` layer
+This means that your `conf/bblayers.conf` should now also have both layer added
 
     BBLAYERS ?= " \
       /home/oscar/yocto/poky/meta \
       /home/oscar/yocto/poky/meta-yocto \
       /home/oscar/yocto/poky/meta-yocto-bsp \
-      /home/oscar/yocto/poky/meta-iot-tech-day \
       /home/oscar/yocto/poky/meta-raspberrypi \
+      /home/oscar/yocto/poky/meta-squeed \
       "
 
-We are now ready to build our new image with hardware support. 
+We are now ready to build our new image! 
 
 If you have a __Raspberry Pi 1__ use the following command
 
-    MACHINE=raspberrypi bitbake rpi-iot-tech-image
+    MACHINE=raspberrypi bitbake rpi-squeed-image
 
 Otherwise if you have Raspberry Pi 2:
 
-    MACHINE=raspberrypi2 bitbake rpi-iot-tech-image
+    MACHINE=raspberrypi2 bitbake rpi-squeed-image
 
 While running bitbake you should notice that the `Build Configuration` has changed. For example:
 
@@ -235,9 +241,10 @@ While running bitbake you should notice that the `Build Configuration` has chang
     ...
     meta              
     meta-yocto        
-    meta-yocto-bsp    
-    meta-iot-tech-day = "jethro:6dba9abd43f7584178de52b623c603a5d4fcec5c"
+    meta-yocto-bsp    = "jethro:6dba9abd43f7584178de52b623c603a5d4fcec5c"
     meta-raspberrypi  = "jethro:f2cff839f52a6e6211337fc45c7c3eabf0fac113"
+    meta-squeed       = "jethro:6dba9abd43f7584178de52b623c603a5d4fcec5c"
+
 
 When the build is completed you'll find the bootable image here
 
