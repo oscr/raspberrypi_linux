@@ -45,7 +45,7 @@ We then have to set up our build environment.
 
     source oe-init-build-env qemu-build
 
-We are now ready to build an image.
+If you happen to close your terminal you will have to run the command above again. We are now ready to build an image.
 
     bitbake core-image-minimal
 
@@ -57,78 +57,83 @@ Now we are ready to run.
 
 __Note__ If you're running on a system without display you may have to use: __runqemu qemux86 nographic__
 
+You __may__ have to provide your password when starting qemu. If that is the case you will see something like this:
+
+    [sudo] password for oscar:
+
 Wait for the system to boot and then login as __root__
 
     qemux86 login: root
+    root@qemux86:~# uname -a
+    Linux qemux86 4.1.17-yocto-standard #1 SMP PREEMPT Sun Apr 17 11:00:20 CEST 2016 i686 GNU/Linux
 
-Congratulations! You have now built and run Poky for the first time.
-
+Congratulations! You have now built and executed Poky in QEMU.
 
 ##Step 2: Making our own layer and recipe
-In the previous step we built Poky without any changes. But in this step we're going to customize it by adding a layer which will contain our custom image and a recipe for a helloworld application.
+In the previous step we built Poky without any changes. In this step we're going to customize it by adding a layer that will contain an example recipe and our custom image.
 
 Make sure that you're in the `poky` folder (for me that's `/home/oscar/yocto/poky`)
 
-We will now create our own layer which we will call `iot-tech-day` and at the same time generate a recipe which we will call `helloIotTech`. Rember that if you open a new terminal you need to `source oe-init-build-env` again.
+We will now generate our layer and example recipe. In the example I will call the layer `squeed` and the the recipe for `helloSqueed`. Please feel free to name yours whatever you like, but remeber to change the name in the examples that follow. 
 
-    yocto-layer create iot-tech-day
-    Please enter the layer priority you'd like to use for the layer: [default: 6] 6
+    yocto-layer create squeed
+    Please enter the layer priority you'd like to use for the layer: [default: 6] 10
     Would you like to have an example recipe created? (y/n) [default: n] y
-    Please enter the name you'd like to use for your example recipe: [default: example] helloIotTech
+    Please enter the name you'd like to use for your example recipe: [default: example] helloSqueed
     Would you like to have an example bbappend file created? (y/n) [default: n] n
 
-    New layer created in meta-iot-tech-day.
+    New layer created in meta-squeed.
 
-    Don't forget to add it to your BBLAYERS (for details see meta-iot-tech-day\README).
+    Don't forget to add it to your BBLAYERS (for details see meta-squeed\README).
 
-You will notice that a folder `meta-iot-tech-day` has been created. The `meta-` is added as a naming prefix by convention. So the name of our layer is `meta-iot-tech-day`.
+You will notice that a folder `meta-squeed` has been created. The `meta-` is added as a naming prefix by convention. So the name of our layer is `meta-squeed`.
 
 After adding the layer you should have folder with the following structure:
 
-    tree meta-iot-tech-day/
-    meta-iot-tech-day/
+    tree meta-squeed/
+    meta-squeed/
     ├── conf
     │   └── layer.conf
     ├── COPYING.MIT
     ├── README
     └── recipes-example
         └── example
-            ├── helloIotTech-0.1
+            ├── helloSqueed-0.1
             │   ├── example.patch
             │   └── helloworld.c
-            └── helloIotTech_0.1.bb
+            └── helloSqueed_0.1.bb
 
-You will now have a generated recipe `helloIotTech_0.1.bb` with the source code: `helloworld.c` and `example.patch`
+You will now have a generated recipe `helloSqueed_0.1.bb` with the source code: `helloworld.c` and `example.patch`
 
 For fun lets edit `helloworld.c`
 
-    nano meta-iot-tech-day/recipes-example/example/helloIotTech-0.1/helloworld.c
+    nano meta-squeed/recipes-example/example/helloSqueed-0.1/helloworld.c
 
-I change my example to print "Hello IoT Tech Day!" instead.
+I change my example to print `Live long and prosper.\n` instead.
 
 We also need an image that we will add our recipe to
 
-    mkdir -p meta-iot-tech-day/recipes-core/images
+    mkdir -p meta-squeed/recipes-core/images
 
 Using nano (or your favorit editor) create the following image recipe     
      
-    nano meta-iot-tech-day/recipes-core/images/qemu-iot-tech-image.bb
+    nano meta-squeed/recipes-core/images/qemu-squeed-image.bb
 
 Enter the following information:
 
     require recipes-core/images/core-image-minimal.bb
-    
-    IMAGE_INSTALL += " helloIotTech"
 
-__Note__ It's important to add a space in front of `helloIotTech`!
+    IMAGE_INSTALL += " helloSqueed"
 
-Go back to the `build` directory. For me that's `/home/oscar/yocto/poky/build`
+__Note__ It's important to add a space in front of `helloSqueed`!
 
-    cd build
+Go back to the `qemu-build` directory. For me that's `/home/oscar/yocto/poky/qemu-build`
+
+    cd qemu-build
     
-Now as a final step we need to add our new layer `meta-iot-tech-day` to our configuration file `conf/bblayers.conf`.
+Now as a final step we need to add our new layer `meta-squeed` to our configuration file `conf/bblayers.conf`.
     
-    bitbake-layers add-layer $HOME/yocto/poky/meta-iot-tech-day/
+    bitbake-layers add-layer $HOME/yocto/poky/meta-squeed/
 
 The last argument is the path to our created layer. __Make sure that it reflects the path that you have.__
 
@@ -137,27 +142,27 @@ If we take a look at `conf/bblayers.conf` you should see something like this:
 You should see both the something like this 
 
     BBLAYERS ?= " \
-      /home/oscr/yocto/poky/meta \
-      /home/oscr/yocto/poky/meta-yocto \
-      /home/oscr/yocto/poky/meta-yocto-bsp \
-      /home/oscr/yocto/poky/meta-iot-tech-day \
+      /home/oscar/yocto/poky/meta \
+      /home/oscar/yocto/poky/meta-yocto \
+      /home/oscar/yocto/poky/meta-yocto-bsp \
+      /home/oscar/yocto/poky/meta-squeed \
       "
 
 Alternatively we could also use `bitbake-layers` to inspect what layers we have added.
 
-    bitbake-layers show-layers
     layer                 path                                      priority
     ==========================================================================
-    meta                  /home/oscr/yocto/poky/meta                5
-    meta-yocto            /home/oscr/yocto/poky/meta-yocto          5
-    meta-yocto-bsp        /home/oscr/yocto/poky/meta-yocto-bsp      5
-    meta-iot-tech-day     /home/oscr/yocto/poky/meta-iot-tech-day   6
+    meta                  /home/oscar/yocto/poky/meta               5
+    meta-yocto            /home/oscar/yocto/poky/meta-yocto         5
+    meta-yocto-bsp        /home/oscar/yocto/poky/meta-yocto-bsp     5
+    meta-squeed           /home/oscar/yocto/poky/meta-squeed        10
+
 
 Now we can build our custom image by running:
 
-    bitbake qemu-iot-tech-image
+    bitbake qemu-squeed-image
 
-When the build has completed you can again run it with QEMU
+When the build has completed we can run it with QEMU as before.
 
     runqemu qemux86
     
