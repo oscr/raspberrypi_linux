@@ -246,19 +246,19 @@ While running bitbake you should notice that the `Build Configuration` has chang
     meta-squeed       = "jethro:6dba9abd43f7584178de52b623c603a5d4fcec5c"
 
 
-When the build is completed you'll find the bootable image here
+Once the build is completed you'll find the image here (assuming you're in the `build` directory)
 
-    build/tmp/deploy/images/raspberrypi/rpi-iot-tech-image-raspberrypi.rpi-sdimg
+    tmp/deploy/images/raspberrypi/rpi-squeed-image-raspberrypi.rpi-sdimg
 
 Advice how to write this image to an SD Card can be found  [here](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)
 
-Once that is done you should be ready to go. If you want you can connect a monitor to it and after it's booted you should be able to ssh to it. In my case
+Now you should be ready to go. You can now for example connect a monitor and keyboard to your Raspberry Pi and start using it. You can also use `ssh` to connect to it. In my case:
 
     ssh root@192.168.0.17
     root@raspberrypi:~# helloworld 
-    Hello IoT Tech Day!
+    Live long and prosper.
 
-It works and this completes our excercises. But we have only scratched the surface of what is possible. You could for example add more applications, write a kernel module, run Poky on some other hardware or investigate booting from TFTP. There are lots of more things to discover and I hope you'll have fun while doing so!
+We have only scratched the surface of what is possible. You could for example add more applications, write a kernel module, run Poky on some other hardware or investigate booting from TFTP. There are lots of more things to discover and I hope you'll have fun while doing so!
 
 ## More information
 For more information I can warmly recommend reading the following resources.
