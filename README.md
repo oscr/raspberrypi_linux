@@ -1,10 +1,6 @@
-# WARNING. Work in progress!
-
-# Don't read or use this.
-
 # Building your own Linux distribution for Raspberry Pi
 
-In this series of exercises you will build a Linux distribution for Raspberry Pi. We will begin by setting up our build machine environment. After that we will build the reference implementation called Poky and run it with QEMU (an emulator). In the next step we will customize Poky by adding a layer containing a helloworld example recipe and image. In the final step we will obtain Raspberry Pi hardware support and build an image that you could write to an SD card and boot.
+In this series of exercises we will build a Linux distribution for Raspberry Pi using the Yocto Project. We will begin by setting up our build machine environment. After that we will build the reference implementation (called Poky) without any changes and run it in QEMU (an emulator). In the next step we will customize Poky by adding a layer containing a helloworld example recipe and an image. Then in the final step we will obtain Raspberry Pi board support and build a bootable image for it. 
 
 Please feel free to contact me if you find any mistakes. All feedback is welcome. 
 
