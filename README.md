@@ -265,6 +265,8 @@ For more information I can warmly recommend reading the following resources.
 
 [About meta-raspberrypi layer](http://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/about/)
 
+[BitBake User Manual: Hello World Example] (www.yoctoproject.org/docs/current/bitbake-user-manual/bitbake-user-manual.html#hello-world-example)
+
 [Yocto Project Documentation](https://www.yoctoproject.org/documentation) 
 
 [Example recipe: mtr](http://cgit.openembedded.org/meta-openembedded/tree/meta-networking/recipes-support/mtr/mtr_0.86.bb)
