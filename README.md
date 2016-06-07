@@ -121,9 +121,7 @@ Enter the following information:
 
     require recipes-core/images/core-image-minimal.bb
 
-    IMAGE_INSTALL += " helloSqueed"
-
-__Note__ It's important to add a space in front of `helloSqueed`!
+    IMAGE_INSTALL += "helloSqueed"
 
 Go back to the `qemu-build` directory. For me that's `/home/oscar/yocto/poky/qemu-build`
 
@@ -199,7 +197,7 @@ Make sure the file contains:
 
     require recipes-core/images/rpi-basic-image.bb
 
-    IMAGE_INSTALL += " helloSqueed"
+    IMAGE_INSTALL += "helloSqueed"
 
 
 Since we're changing target we'll setup a new build environment.
