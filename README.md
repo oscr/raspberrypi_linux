@@ -37,6 +37,8 @@ First we need to get the reference distribution (Poky).
     git clone --branch jethro --depth 1 git://git.yoctoproject.org/poky
     cd poky
 
+__TODO__ Try with the new release krogoth: https://www.yoctoproject.org/downloads/yocto-project
+
 We then have to set up our build environment.
 
     source oe-init-build-env qemu-build
@@ -82,7 +84,7 @@ We will now generate our layer and example recipe. In the example I will call th
 
     Don't forget to add it to your BBLAYERS (for details see meta-squeed\README).
 
-You will notice that a folder `meta-squeed` has been created. The `meta-` is added as a naming prefix by convention. So the name of our layer is `meta-squeed`.
+You will notice that a folder `meta-squeed` has been created. The `meta-` is added to the layer name by convention.
 
 After adding the layer you should have folder with the following structure:
 
