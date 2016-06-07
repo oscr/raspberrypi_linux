@@ -32,7 +32,7 @@ If you are using any other supported distribution you’ll find the required pac
 http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html#required-packages-for-the-host-development-system
 
 ##Step 1: Building Poky and using QEMU
-First we need to get the reference build system (Poky).
+First we need to get the reference distribution (Poky).
 
     git clone --branch jethro --depth 1 git://git.yoctoproject.org/poky
     cd poky
