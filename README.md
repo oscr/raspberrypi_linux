@@ -146,7 +146,7 @@ You should see both the something like this
       /home/oscar/yocto/poky/meta-squeed \
       "
 
-Alternatively we could also use `bitbake-layers` to inspect what layers we have added.
+Alternatively we could also use `bitbake-layers show-layers` to inspect what layers we have added.
 
     layer                 path                                      priority
     ==========================================================================
