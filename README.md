@@ -248,7 +248,7 @@ Now you should be ready to go. You can now for example connect a monitor and key
     root@raspberrypi:~# helloworld 
     Live long and prosper.
 
-We have only scratched the surface of what is possible. You could for example add more applications, write a kernel module, run Poky on some other hardware or investigate booting from TFTP. There are lots of more things to discover and I hope you'll have fun while doing so!
+Success! This is the final step of our excersice, but we have only scratched the surface of what is possible. You could for example add more applications, write a kernel module, run your distribution on some other hardware or investigate booting from TFTP. There are lots of more things to discover and I hope you'll have fun while doing so!
 
 ## More information
 For more information I can warmly recommend reading the following resources.
