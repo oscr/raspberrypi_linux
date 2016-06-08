@@ -37,17 +37,17 @@ First we need to get the reference distribution (Poky).
 
 __TODO__ Try with the new release krogoth: https://www.yoctoproject.org/downloads/yocto-project
 
-We then have to set up our build environment.
+We then have to initialize the build environment.
 
     source oe-init-build-env qemu-build
 
-If you happen to close your terminal you will have to run the command above again. We are now ready to build an image.
+If you happen to close your terminal you will have to initialize your build enviroment again. We are now ready to build an image.
 
     bitbake core-image-minimal
 
-Note that it might take hours to build everything the first time. 
+It might take hours to build everything (depending on how fast your machine is). 
 
-Now we are ready to run. 
+When it's completed we're ready to run our image. 
 
     runqemu qemux86
 
@@ -63,14 +63,14 @@ Wait for the system to boot and then login as __root__
     root@qemux86:~# uname -a
     Linux qemux86 4.1.17-yocto-standard #1 SMP PREEMPT Sun Apr 17 11:00:20 CEST 2016 i686 GNU/Linux
 
-Congratulations! You have now built and executed Poky in QEMU.
+Congratulations! You have now built Poky and run it in QEMU!
 
 ##Step 2: Making our own layer and recipe
-In the previous step we built Poky without any changes. In this step we're going to customize it by adding a layer that will contain an example recipe and our custom image.
+In the previous part we built Poky without making any changes. In this step we're going to customize it by adding a layer that will contain an example recipe and our custom image.
 
 Make sure that you're in the `poky` folder (for me that's `/home/oscar/yocto/poky`)
 
-We will now generate our layer and example recipe. In the example I will call the layer `squeed` and the the recipe for `helloSqueed`. Please feel free to name yours whatever you like, but remeber to change the name in the examples that follow. 
+We will now generate our layer and example recipe. In the example I will call the layer `squeed` and the the recipe for `helloSqueed`. Please feel free to name yours whatever you like, but don't forget to change the name everywhere if you do! 
 
     yocto-layer create squeed
     Please enter the layer priority you'd like to use for the layer: [default: 6] 10
@@ -101,11 +101,11 @@ After adding the layer you should have folder with the following structure:
 
 You will now have a generated recipe `helloSqueed_0.1.bb` with the source code: `helloworld.c` and `example.patch`
 
-For fun lets edit `helloworld.c`
+Lets edit `helloworld.c` to add a custom greeting
 
     nano meta-squeed/recipes-example/example/helloSqueed-0.1/helloworld.c
 
-I change my example to print `Live long and prosper.\n` instead.
+I changed my `helloworld` example to print `Live long and prosper.\n` instead.
 
 We also need an image that we will add our recipe to
 
@@ -115,7 +115,7 @@ Using nano (or your favorit editor) create the following image recipe
      
     nano meta-squeed/recipes-core/images/qemu-squeed-image.bb
 
-Enter the following information:
+Enter the following:
 
     require recipes-core/images/core-image-minimal.bb
 
@@ -132,8 +132,6 @@ Now as a final step we need to add our new layer `meta-squeed` to our configurat
 The last argument is the path to our created layer. __Make sure that it reflects the path that you have.__
 
 If we take a look at `conf/bblayers.conf` you should see something like this:
-
-You should see both the something like this 
 
     BBLAYERS ?= " \
       /home/oscar/yocto/poky/meta \
@@ -170,7 +168,7 @@ When startup is completed you will see the following:
 
 
 ##Step 3: Building our distribution for Raspberry Pi
-In the final step we will now get our Linux distribution running on actual Raspberry Pi hardware. To do this we need a  __Board Support Package__ to provide hardware support. We can find this in the `meta-raspberryp` layer. We will also create another image to make our distribution run on hardware.
+In this final part we will now get our Linux distribution running on actual Raspberry Pi hardware. In order to do this we need a __Board Support Package__ to provide hardware support. We can find this in the `meta-raspberryp` layer. We will also create another image to make our distribution run on hardware.
 
 __Hint__ You can search for available layers [here](http://layers.openembedded.org/)
 
@@ -182,7 +180,7 @@ Then we need to clone the `meta-raspberryp` layer.
 
     git clone --branch jethro --depth 1 git://git.yoctoproject.org/meta-raspberrypi
 
-If we check inside the meta-raspberrypi layer we will see that there are three available images.
+If we look inside the meta-raspberrypi layer we will see that it comes with three standard images.
 
     ls meta-raspberrypi/recipes-core/images/
     rpi-basic-image.bb  rpi-hwup-image.bb  rpi-test-image.bb
@@ -197,17 +195,16 @@ Make sure the file contains:
 
     IMAGE_INSTALL += "helloSqueed"
 
-
 Since we're changing target we'll setup a new build environment.
 
     source oe-init-build-env build
     
-We then need to add both our own layer `meta-squeed` and the `meta-raspberrypi` layer
+We then need to add both our own layer `meta-squeed` and the `meta-raspberrypi` layer to the local configuration.
 
     bitbake-layers add-layer $HOME/yocto/poky/meta-raspberrypi/
     bitbake-layers add-layer $HOME/yocto/poky/meta-squeed/
     
-This means that your `conf/bblayers.conf` should now also have both layer added
+`conf/bblayers.conf` should now contain both these layers and look something this:
 
     BBLAYERS ?= " \
       /home/oscar/yocto/poky/meta \
@@ -239,8 +236,7 @@ While running bitbake you should notice that the `Build Configuration` has chang
     meta-raspberrypi  = "jethro:f2cff839f52a6e6211337fc45c7c3eabf0fac113"
     meta-squeed       = "jethro:6dba9abd43f7584178de52b623c603a5d4fcec5c"
 
-
-Once the build is completed you'll find the image here (assuming you're in the `build` directory)
+Once the build has completed you'll find the image here (assuming you're in the `build` directory)
 
     tmp/deploy/images/raspberrypi/rpi-squeed-image-raspberrypi.rpi-sdimg
 
