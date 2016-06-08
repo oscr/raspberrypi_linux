@@ -1,14 +1,15 @@
-# Building your own Linux distribution for Raspberry Pi
+# Building your own Linux distribution
+# for Raspberry Pi
 
-In this series of exercises we will build a Linux distribution for Raspberry Pi using the Yocto Project. We will begin by setting up our build machine environment. After that we will use the reference distribution (called Poky) to build a standard image and run it with QEMU (**Q**uick **Emu**lator). In the next step we will will add a layer containing an example helloworld recipe and our own image. Then in the final step we will obtain Raspberry Pi board support and build a bootable image for it.
+In this exercise we will build a Linux distribution for Raspberry Pi using the Yocto Project. We will begin by setting up our build host environment, we will then build Poky (a reference distribution) as it is and then we will run it with QEMU (**Q**uick **Emu**lator). After that we will begin to customize Poky by adding a layer that will contain our own images and recipe. Then as a final step we will add the Raspberry Pi layer which will provide board support and using that we will create a custom bootable image for Raspberry Pi.
 
 Please feel free to contact me if you find any mistakes. All feedback is welcome. 
 
 ##Prerequisites
 ### Advice
-The Yocto Project documentation recommends that you have at least 50 gb of hard disk space available.
+The Yocto Project documentation recommends that you have at least 50 gb of hard disk space available but more is better.
 
-In the examples I will work from a folder called yocto in my home directory. Therefore if you see the following path
+In the examples I will work from a folder called `yocto` in my home directory. Therefore if you see the following path
 
     /home/oscar/yocto
 
