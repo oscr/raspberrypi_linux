@@ -230,9 +230,9 @@ While running bitbake you should notice that the `Build Configuration` has chang
     ...
     meta              
     meta-yocto        
-    meta-yocto-bsp    = "jethro:6dba9abd43f7584178de52b623c603a5d4fcec5c"
-    meta-raspberrypi  = "jethro:f2cff839f52a6e6211337fc45c7c3eabf0fac113"
-    meta-squeed       = "jethro:6dba9abd43f7584178de52b623c603a5d4fcec5c"
+    meta-yocto-bsp    = "krogoth:40f4a6d075236265086cc79400dea3c14720383a"
+    meta-raspberrypi  = "krogoth:a5f9b07a820d50ae5fb62e07306cd4e72d8638a9"
+    meta-squeed       = "krogoth:40f4a6d075236265086cc79400dea3c14720383a"
 
 Once the build has completed you'll find the image here (assuming you're in the `build` directory)
 
