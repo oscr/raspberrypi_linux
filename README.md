@@ -32,10 +32,8 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html#required-pac
 ##Step 1: Building Poky and using QEMU
 First we need to get the reference distribution (Poky).
 
-    git clone --branch jethro --depth 1 git://git.yoctoproject.org/poky
+    git clone --branch krogoth git://git.yoctoproject.org/poky
     cd poky
-
-__TODO__ Try with the new release krogoth: https://www.yoctoproject.org/downloads/yocto-project
 
 We then have to initialize the build environment.
 
@@ -178,7 +176,7 @@ Go back to the `poky` directory (for me that's `/home/oscar/yocto/poky/`)
     
 Then we need to clone the `meta-raspberryp` layer.
 
-    git clone --branch jethro --depth 1 git://git.yoctoproject.org/meta-raspberrypi
+    git clone --branch krogoth git://git.yoctoproject.org/meta-raspberrypi
 
 If we look inside the meta-raspberrypi layer we will see that it comes with three standard images.
 
